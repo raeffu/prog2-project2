@@ -1,16 +1,36 @@
 package labyrinth;
 
+import java.awt.Color;
+
 public class Tile {
 
   private int _x;
   private int _y;
-  
-  private boolean _isWall;
-  
-  public Tile(int x, int y, boolean isWall){
+
+  public enum ETileType {
+    WALL, EMPTY, HIGHLIGHT
+  }
+
+  private ETileType _type;
+
+  private Color _color;
+
+  public Tile(int x, int y, char c) {
     _x = x;
     _y = y;
-    _isWall = isWall;
+
+    switch (c) {
+    case '#':
+      _type = ETileType.WALL;
+      _color = Color.BLACK;
+      break;
+    case '.':
+      _type = ETileType.EMPTY;
+      _color = Color.WHITE;
+      break;
+    default:
+      break;
+    }
   }
 
   public int get_x() {
@@ -21,9 +41,18 @@ public class Tile {
     return _y;
   }
 
-  public boolean isWall() {
-    return _isWall;
+  public ETileType getType() {
+    return _type;
   }
-  
-  
+
+  public void setType(ETileType type) {
+    if (type == ETileType.HIGHLIGHT) {
+      _color = Color.CYAN;
+    }
+    _type = type;
+  }
+
+  public Color getColor() {
+    return _color;
+  }
 }

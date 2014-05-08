@@ -16,6 +16,8 @@ import javax.swing.border.Border;
 
 public class Main extends JFrame {
 
+  private static final long serialVersionUID = 1L;
+  
   private final static int WINDOW_WIDTH = 800;
   private final static int WINDOW_HEIGHT = 800;
 
@@ -37,14 +39,13 @@ public class Main extends JFrame {
     JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 
-    _labyrinthPanel = new LabyrinthPanel();
+    _labyrinthPanel = new LabyrinthPanel(new LabyrinthModel());
 
     _labyrinthPanel.addMouseMotionListener(new MouseMotionListener() {
 
       @Override
       public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
-
+        _labyrinthPanel.highlightTile(e.getPoint());
       }
 
       @Override
