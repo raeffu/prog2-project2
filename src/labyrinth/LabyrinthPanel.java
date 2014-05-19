@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -42,6 +44,10 @@ public class LabyrinthPanel extends JPanel {
         paintTile(g2, tile, x, y);
       }
     }
+
+    for (Ellipse2D.Double circle : _labyrinthModel.getCircles()) {
+      g2.fill(circle);
+    }
   }
 
   private void calculateSizes() {
@@ -61,11 +67,6 @@ public class LabyrinthPanel extends JPanel {
     g.drawRect(x, y, _tileSize, _tileSize);
   }
 
-  // private void paintWall(Graphics2D g, int x, int y) {
-  // g.setColor(Color.BLACK);
-  // g.fillRect(x, y, _tileSize, _tileSize);
-  // }
-
   private void paintTile(Graphics2D g, Tile tile, int x, int y) {
     g.setColor(tile.getColor());
     g.fillRect(x, y, _tileSize, _tileSize);
@@ -75,9 +76,11 @@ public class LabyrinthPanel extends JPanel {
   //
   // }
 
-  public void highlightTile(Point point) {
-    for (Tile tile : _labyrinthModel.getTiles()) {
+  public void selectTile(Point point) {
+    ArrayList<Ellipse2D.Double> circles = _labyrinthModel.getCircles();
+    circles.clear();
 
+    for (Tile tile : _labyrinthModel.getTiles()) {
       if (tile.getType() == ETileType.EMPTY) {
 
         int x = tile.get_x() * _tileSize;
@@ -85,8 +88,13 @@ public class LabyrinthPanel extends JPanel {
 
         Rectangle frame = new Rectangle(x, y, _tileSize, _tileSize);
 
+        int diameter = 20;
+        Ellipse2D.Double circle = new Ellipse2D.Double(x
+            + (0.5 * (_tileSize - diameter)), y
+            + (0.5 * (_tileSize - diameter)), diameter, diameter);
+
         if (frame.contains(point)) {
-          tile.setType(ETileType.HIGHLIGHT);
+          circles.add(circle);
         }
       }
     }

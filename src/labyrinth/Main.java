@@ -1,15 +1,12 @@
 package labyrinth;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -17,7 +14,7 @@ import javax.swing.border.Border;
 public class Main extends JFrame {
 
   private static final long serialVersionUID = 1L;
-  
+
   private final static int WINDOW_WIDTH = 800;
   private final static int WINDOW_HEIGHT = 800;
 
@@ -45,11 +42,12 @@ public class Main extends JFrame {
 
       @Override
       public void mouseMoved(MouseEvent e) {
-        _labyrinthPanel.highlightTile(e.getPoint());
+         _labyrinthPanel.selectTile(e.getPoint());
       }
 
       @Override
-      public void mouseDragged(MouseEvent arg0) {}
+      public void mouseDragged(MouseEvent e) {
+      }
     });
 
     _labyrinthPanel.addMouseListener(new MouseListener() {
@@ -61,39 +59,43 @@ public class Main extends JFrame {
       }
 
       @Override
-      public void mousePressed(MouseEvent arg0) {}
+      public void mousePressed(MouseEvent arg0) {
+      }
 
       @Override
-      public void mouseExited(MouseEvent arg0) {}
+      public void mouseExited(MouseEvent e) {
+      }
 
       @Override
-      public void mouseEntered(MouseEvent arg0) {}
+      public void mouseEntered(MouseEvent e) {
+      }
 
       @Override
-      public void mouseClicked(MouseEvent arg0) {}
-    });
-    
-    mainPanel.add(_labyrinthPanel);
-    
-    JButton btnSolve = new JButton("Way out!");
-    btnSolve.addActionListener(new ActionListener() {
-      
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-        
+      public void mouseClicked(MouseEvent arg0) {
       }
     });
-    
-    mainPanel.add(btnSolve);
-    
+
+    mainPanel.add(_labyrinthPanel);
+
+//    JButton btnSolve = new JButton("Way out!");
+//    btnSolve.addActionListener(new ActionListener() {
+//
+//      @Override
+//      public void actionPerformed(ActionEvent arg0) {
+//        // TODO Auto-generated method stub
+//
+//      }
+//    });
+//
+//    mainPanel.add(btnSolve);
+
     Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
     mainPanel.setBorder(border);
-    
+
     add(mainPanel);
   }
-  
-  public static void main(String[] args){
+
+  public static void main(String[] args) {
     new Main();
   }
 }

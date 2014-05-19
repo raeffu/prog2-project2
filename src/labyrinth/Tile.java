@@ -7,13 +7,13 @@ public class Tile {
   private int _x;
   private int _y;
 
+  private ETileType _type;
+  private Color _color;
+  
   public enum ETileType {
     WALL, EMPTY, HIGHLIGHT
   }
 
-  private ETileType _type;
-
-  private Color _color;
 
   public Tile(int x, int y, char c) {
     _x = x;
@@ -45,12 +45,12 @@ public class Tile {
     return _type;
   }
 
-  public void setType(ETileType type) {
-    if (type == ETileType.HIGHLIGHT) {
-      _color = Color.CYAN;
-    }
-    _type = type;
-  }
+//  public void setType(ETileType type) {
+//    if (type == ETileType.HIGHLIGHT) {
+//      _color = Color.CYAN;
+//    }
+//    _type = type;
+//  }
 
   public Color getColor() {
     return _color;
