@@ -11,7 +11,7 @@ public class Tile {
   private Color _color;
   
   public enum ETileType {
-    WALL, EMPTY, HIGHLIGHT
+    WALL, EMPTY
   }
 
 
