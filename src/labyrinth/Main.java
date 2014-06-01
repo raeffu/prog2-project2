@@ -23,7 +23,7 @@ public class Main extends JFrame {
   public Main() {
     setTitle("Labyrinth");
     setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-    setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+//    setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
 

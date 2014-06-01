@@ -45,13 +45,6 @@ public class Tile {
     return _type;
   }
 
-//  public void setType(ETileType type) {
-//    if (type == ETileType.HIGHLIGHT) {
-//      _color = Color.CYAN;
-//    }
-//    _type = type;
-//  }
-
   public Color getColor() {
     return _color;
   }
