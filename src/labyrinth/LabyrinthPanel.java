@@ -98,6 +98,8 @@ public class LabyrinthPanel extends JPanel {
 
         if (frame.contains(point)) {
           circles.add(circle);
+          visited.add(tile);
+          
           if (_labyrinthModel.findWayOut(tile)) {
             for (Tile t : _labyrinthModel.get_visited()) {
               int a = t.get_x() * _tileSize;
