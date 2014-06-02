@@ -1,6 +1,5 @@
 package labyrinth;
 
-import java.awt.geom.Ellipse2D;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,7 +12,7 @@ public class LabyrinthModel {
 
   private ArrayList<Tile> _tiles = new ArrayList<Tile>();
   private ArrayList<Tile> _visited = new ArrayList<Tile>();
-  private ArrayList<Ellipse2D.Double> _circles = new ArrayList<Ellipse2D.Double>();
+  private ArrayList<Circle> _circles = new ArrayList<Circle>();
 
   public LabyrinthModel() {
     parseLabyrinth("res/labyrinth.txt");
@@ -43,7 +42,7 @@ public class LabyrinthModel {
 
   }
 
-  public ArrayList<Ellipse2D.Double> getCircles() {
+  public ArrayList<Circle> getCircles() {
     return _circles;
   }
 

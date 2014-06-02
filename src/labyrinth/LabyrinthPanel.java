@@ -46,9 +46,9 @@ public class LabyrinthPanel extends JPanel {
       }
     }
 
-    for (Ellipse2D.Double circle : _labyrinthModel.getCircles()) {
-      g2.setColor(Color.RED);
-      g2.fill(circle);
+    for (Circle circle : _labyrinthModel.getCircles()) {
+      g2.setColor(circle.get_color());
+      g2.fill(circle.get_circle());
     }
   }
 
@@ -142,7 +142,7 @@ public class LabyrinthPanel extends JPanel {
   }
   
   public void selectTile(Point point) {
-    ArrayList<Ellipse2D.Double> circles = _labyrinthModel.getCircles();
+    ArrayList<Circle> circles = _labyrinthModel.getCircles();
     ArrayList<Tile> visited = _labyrinthModel.get_visited();
     circles.clear();
     visited.clear();
@@ -155,24 +155,26 @@ public class LabyrinthPanel extends JPanel {
 
         Rectangle frame = new Rectangle(x, y, _tileSize, _tileSize);
 
-        int diameter = 20;
-        Ellipse2D.Double circle = new Ellipse2D.Double(x
-            + (0.5 * (_tileSize - diameter)), y
-            + (0.5 * (_tileSize - diameter)), diameter, diameter);
-
         if (frame.contains(point)) {
-          circles.add(circle);
           visited.add(tile);
 
           if (_labyrinthModel.findWayOut(tile)) {
-            for (Tile t : _labyrinthModel.get_visited()) {
+            for(int i=0; i<visited.size(); i++){
+              Tile t = visited.get(i);
+              
               int a = t.get_x() * _tileSize;
               int b = t.get_y() * _tileSize;
-
-              Ellipse2D.Double path = new Ellipse2D.Double(a
+              
+              int diameter = 20;
+              
+              Ellipse2D.Double ellipsePath = new Ellipse2D.Double(a
                   + (0.5 * (_tileSize - diameter)), b
                   + (0.5 * (_tileSize - diameter)), diameter, diameter);
-
+              
+              Color color = (i==0) ? Color.RED : Color.GREEN;
+              
+              Circle path = new Circle(ellipsePath, color);
+              
               circles.add(path);
             }
 
