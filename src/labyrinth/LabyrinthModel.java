@@ -105,7 +105,7 @@ public class LabyrinthModel {
     return false;
   }
 
-  private ArrayList<Tile> getNeighbors(Tile tile) {
+  public ArrayList<Tile> getNeighbors(Tile tile) {
     Tile top = getTile(tile.get_x(), tile.get_y() - 1);
     Tile right = getTile(tile.get_x() + 1, tile.get_y());
     Tile bottom = getTile(tile.get_x(), tile.get_y() + 1);

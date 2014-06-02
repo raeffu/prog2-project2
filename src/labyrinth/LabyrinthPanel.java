@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -41,7 +42,7 @@ public class LabyrinthPanel extends JPanel {
       paintGrid(g2, x, y);
 
       if (tile.getType() != ETileType.EMPTY) {
-        paintTile(g2, tile, x, y);
+        paintWall(g2, tile, x, y);
       }
     }
 
@@ -68,15 +69,78 @@ public class LabyrinthPanel extends JPanel {
     g.drawRect(x, y, _tileSize, _tileSize);
   }
 
-  private void paintTile(Graphics2D g, Tile tile, int x, int y) {
-    g.setColor(tile.getColor());
-    g.fillRect(x, y, _tileSize, _tileSize);
+  private void paintWall(Graphics2D g, Tile tile, int x, int y) {
+    
+    g.setStroke(new BasicStroke(3));
+    
+    ArrayList<Tile> neighbors = _labyrinthModel.getNeighbors(tile);
+    Tile top = neighbors.get(0);
+    Tile right = neighbors.get(1);
+    Tile bottom = neighbors.get(2);
+    Tile left = neighbors.get(3);
+
+    if ((top != null) && top.getType() == ETileType.WALL) {
+
+      int ax = tile.get_x() * _tileSize + (_tileSize / 2);
+      int ay = tile.get_y() * _tileSize;
+      int bx = ax;
+      int by = ay + (_tileSize / 2);
+
+      g.setColor(Color.BLACK);
+      g.draw(new Line2D.Float(ax, ay, bx, by));
+    }
+    
+    if ((right != null) && right.getType() == ETileType.WALL) {
+
+      int ax = tile.get_x() * _tileSize + (_tileSize / 2);
+      int ay = tile.get_y() * _tileSize + (_tileSize / 2);
+      int bx = ax + _tileSize /2;
+      int by = ay;
+
+      g.setColor(Color.BLACK);
+      g.draw(new Line2D.Float(ax, ay, bx, by));
+    }
+    
+    if ((bottom != null) && bottom.getType() == ETileType.WALL) {
+
+      int ax = tile.get_x() * _tileSize + (_tileSize / 2);
+      int ay = tile.get_y() * _tileSize + (_tileSize / 2);
+      int bx = ax;
+      int by = ay + _tileSize / 2;
+
+      g.setColor(Color.BLACK);
+      g.draw(new Line2D.Float(ax, ay, bx, by));
+    }
+    
+    if ((left != null) && left.getType() == ETileType.WALL) {
+
+      int ax = tile.get_x() * _tileSize + (_tileSize / 2);
+      int ay = tile.get_y() * _tileSize + (_tileSize / 2);
+      int bx = ax - _tileSize / 2;
+      int by = ay;
+
+      g.setColor(Color.BLACK);
+      g.draw(new Line2D.Float(ax, ay, bx, by));
+    }
+    
+    if ((top != null) && top.getType() != ETileType.WALL
+        && (right != null) && right.getType() != ETileType.WALL
+        && (bottom != null) && bottom.getType() != ETileType.WALL
+        && (left != null) && left.getType() != ETileType.WALL) {
+      
+      int dx = tile.get_x() * _tileSize;
+      int dy = tile.get_y() * _tileSize;
+
+      int diameter = 10;
+      Ellipse2D.Double middle = new Ellipse2D.Double(dx
+          + (0.5 * (_tileSize - diameter)), dy
+          + (0.5 * (_tileSize - diameter)), diameter, diameter);
+      
+      g.setColor(Color.BLACK);
+      g.fill(middle);
+    }
   }
-
-  // private void paintPath(Graphics2D g, int x, int y) {
-  //
-  // }
-
+  
   public void selectTile(Point point) {
     ArrayList<Ellipse2D.Double> circles = _labyrinthModel.getCircles();
     ArrayList<Tile> visited = _labyrinthModel.get_visited();
@@ -99,7 +163,7 @@ public class LabyrinthPanel extends JPanel {
         if (frame.contains(point)) {
           circles.add(circle);
           visited.add(tile);
-          
+
           if (_labyrinthModel.findWayOut(tile)) {
             for (Tile t : _labyrinthModel.get_visited()) {
               int a = t.get_x() * _tileSize;
