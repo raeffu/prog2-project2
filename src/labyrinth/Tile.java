@@ -44,6 +44,10 @@ public class Tile {
   public ETileType getType() {
     return _type;
   }
+  
+  public void switchType() {
+    _type = (_type == ETileType.EMPTY) ? ETileType.WALL : ETileType.EMPTY;
+  }
 
   public Color getColor() {
     return _color;

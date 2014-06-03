@@ -10,9 +10,10 @@ import labyrinth.Tile.ETileType;
 
 public class LabyrinthModel {
 
-  private ArrayList<Tile> _tiles = new ArrayList<Tile>();
-  private ArrayList<Tile> _visited = new ArrayList<Tile>();
-  private ArrayList<Circle> _circles = new ArrayList<Circle>();
+  private ArrayList<Tile> _tiles = new ArrayList<>();
+  private ArrayList<Tile> _path = new ArrayList<>();
+  private ArrayList<ArrayList<Tile>> _paths = new ArrayList<>();
+  private ArrayList<Circle> _circles = new ArrayList<>();
 
   public LabyrinthModel() {
     parseLabyrinth("res/labyrinth.txt");
@@ -73,34 +74,69 @@ public class LabyrinthModel {
   }
 
   public boolean findWayOut(Tile tile) {
+    _paths.clear();
+    _path.clear();
+
+    ArrayList<Tile> visited = new ArrayList<>();
+    visited.add(tile);
+
+    findWayOut(tile, visited);
+
+    if (_paths.size() > 0) {
+      ArrayList<Tile> shortestPath = null;
+
+      for (ArrayList<Tile> path : _paths) {
+        
+        if (shortestPath == null) {
+          shortestPath = path;
+          continue;
+        }
+        if(shortestPath.size() > path.size()){
+          shortestPath = path;
+        }
+      }
+      
+      for(Tile t : shortestPath){
+        _path.add(t);
+      }
+      
+      System.out.println(_paths.size());
+      return true;
+    }
+    
+    return false;
+  }
+
+  public boolean findWayOut(Tile tile, ArrayList<Tile> visited) {
+    
     if (isAtExit(tile)) {
+      _paths.add(visited);
       return true;
     }
     
     ArrayList<Tile> neighbors = getNeighbors(tile);
-    
+
     for (Tile neighbor : neighbors) {
-      if(_visited.contains(neighbor)){
+      if (visited.contains(neighbor)) {
         continue;
       }
-      if(neighbor.getType() != ETileType.EMPTY){
+      if (neighbor.getType() != ETileType.EMPTY) {
         continue;
       }
-      
-      _visited.add(neighbor);
-      
-      if(isAtExit(neighbor)){
+
+      visited.add(neighbor);
+
+      if (isAtExit(neighbor)) {
+        _paths.add(visited);
         return true;
       }
       
-      if(!findWayOut(neighbor)){
-        _visited.remove(neighbor);
-      }
-      else{
-        return true;
+      // call recursivly with copy of visited ArrayList
+      if (!findWayOut(neighbor, new ArrayList<>(visited))) {
+        visited.remove(neighbor);
       }
     }
-    
+
     return false;
   }
 
@@ -109,19 +145,18 @@ public class LabyrinthModel {
     Tile right = getTile(tile.get_x() + 1, tile.get_y());
     Tile bottom = getTile(tile.get_x(), tile.get_y() + 1);
     Tile left = getTile(tile.get_x() - 1, tile.get_y());
-    
+
     ArrayList<Tile> neighbors = new ArrayList<Tile>();
     neighbors.add(top);
     neighbors.add(right);
     neighbors.add(bottom);
     neighbors.add(left);
-    
+
     return neighbors;
   }
 
-  public ArrayList<Tile> get_visited() {
-    return _visited;
+  public ArrayList<Tile> getPath() {
+    return _path;
   }
-  
-  
+
 }
