@@ -11,6 +11,7 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import labyrinth.Tile.ETileType;
 
@@ -18,14 +19,19 @@ public class LabyrinthPanel extends JPanel {
 
   private static final long serialVersionUID = 1L;
 
-  private int _width;
-  private int _height;
   private int _tileSize;
+
+  private JTextField _txtRecursions;
 
   private LabyrinthModel _labyrinthModel;
 
   public LabyrinthPanel(LabyrinthModel labyrinthModel) {
     _labyrinthModel = labyrinthModel;
+
+    _txtRecursions = new JTextField("000");
+    _txtRecursions.setEditable(false);
+    _txtRecursions.setSize(20, 40);
+    this.add(_txtRecursions);
   }
 
   @Override
@@ -53,14 +59,17 @@ public class LabyrinthPanel extends JPanel {
   }
 
   private void calculateSizes() {
-    _width = getSize().width;
-    _height = getSize().height;
+    int width = getSize().width;
+    int height = getSize().height;
 
-    if (_width > _height)
-      _tileSize = _width / 20;
+    if (width > height)
+      _tileSize = width / 20;
     else
-      _tileSize = _height / 20;
-
+      _tileSize = height / 20;
+    
+    _txtRecursions.setLocation(width - 50, height
+        - (height - 50));
+    
   }
 
   private void paintGrid(Graphics2D g, int x, int y) {
@@ -178,6 +187,8 @@ public class LabyrinthPanel extends JPanel {
               circles.add(step);
             }
 
+            _txtRecursions.setText(Integer.toString(_labyrinthModel
+                .getPahtsSize()));
           }
         }
       }

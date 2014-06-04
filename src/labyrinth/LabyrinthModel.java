@@ -33,7 +33,7 @@ public class LabyrinthModel {
           _tiles.add(tile);
         }
         row += 1;
-      }
+      }      
       br.close();
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -100,7 +100,6 @@ public class LabyrinthModel {
         _path.add(t);
       }
       
-      System.out.println(_paths.size());
       return true;
     }
     
@@ -157,6 +156,10 @@ public class LabyrinthModel {
 
   public ArrayList<Tile> getPath() {
     return _path;
+  }
+  
+  public int getPahtsSize(){
+    return _paths.size();
   }
 
 }
